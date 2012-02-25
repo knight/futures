@@ -31,21 +31,21 @@ describe Future do
   end
   it "should tell whether the future forms a dark candle" do
     future = Future.create(:ticker=>"FW20", :dyyyymmdd=>20120211, :open=>2372, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
-    future.is_dark?.should be_true
+    future.should be_dark
   end
   
   it "should tell whether the future forms a white candle" do
     future = future = Future.create(:ticker=>"FW20", :dyyyymmdd=>20120211, :open=>2345, :high=>2376, :low=>2344, :close=>2370, :vol=>37728, :openint=>37728)
-    future.is_white?.should be_true
+    future.should be_white
   end
   it "should not be white when it's dark" do
     future = Future.create!(:ticker=>"FW20", :dyyyymmdd=>20120211, :open=>2372, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
-    future.is_white?.should be false
+    future.should_not be_white
   end
   
   it "should not be dark when it's white" do
     future = Future.create!(:ticker=>"FW20", :dyyyymmdd=>20120211, :open=>2344, :high=>2376, :low=>2344, :close=>2372, :vol=>37728, :openint=>37728)
-    future.is_dark?.should be false
+    future.should_not be_dark
   end
   
   it "should be able to compute its higher shadow" do

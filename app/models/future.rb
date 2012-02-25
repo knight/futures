@@ -15,10 +15,11 @@ class Future < ActiveRecord::Base
   validates_uniqueness_of :dyyyymmdd
   validates_with FuturesValidator
   
-  def is_dark?
+  def dark?
     close - open < 0
   end
-  def is_white?
+  
+  def white?
     open - close < 0
   end
   
