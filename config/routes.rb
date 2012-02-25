@@ -1,4 +1,6 @@
 Futures::Application.routes.draw do
+  resources :futures
+  root :to => 'futures#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
