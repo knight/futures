@@ -1,0 +1,18 @@
+<h1>Futures</h1>
+<a href="<%=url_for :new_future %>">new</a>
+<table>
+	<tr>
+		<th>no.</th>
+		<th>ticker</th>
+		<th>date</th>
+		<th>actions</th>
+	</tr>
+	<% @futures.each do |f|%>
+	<tr>
+		<td></td>
+		<td><%=f.ticker%></td>
+		<td><%=f.dyyyymmdd%></td>
+		<td> show | edit | delete</td>
+	</tr>
+	<% end %>
+</table>

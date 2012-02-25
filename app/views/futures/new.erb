@@ -1,0 +1,14 @@
+<h1>New Future</h1>
+
+<form method="post" action="<%=url_for :futures%>">
+	<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>" />
+	ticker: <input type="text" name="future[ticker]" value="" /><br />
+	date: <input type="text"  name="future[dyyyymmdd]" value="" /><br />
+	open: <input type="text"  name="future[open]" value="" /><br />
+	high: <input type="text"  name="future[high]" value="" /><br />
+	low: <input type="text"  name="future[low]" value="" /><br />
+	close: <input type="text"  name="future[close]" value="" /><br />
+	vol: <input type="text" name="future[vol]" value="" /><br />
+	openint: <input type="text" name="future[openint]" value="" /><br />
+	<input type="submit" value="create">
+</form>
