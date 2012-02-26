@@ -4,13 +4,13 @@ class FuturesController < ApplicationController
   end
   
   def create
-    future = Future.new(params[:future])
+    @future = Future.new(params[:future])
     
     #respond_to do |format|
-      if future.save
+      if @future.save
         redirect_to :futures
       else
-        redirect_to :new_future
+        render :new
       end
     #end
 
