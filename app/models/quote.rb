@@ -38,4 +38,31 @@ class Quote < ActiveRecord::Base
       close - low
     end
   end
+  
+  def import(line)
+    if line.scan(/\<\w+\>/).length > 0
+      return
+    end
+    values = line.split(",")
+    self.ticker= values[0]
+    self.dyyyymmdd= values[1]
+    self.open= values[2]
+    self.high= values[3]
+    self.low= values[4]
+    self.close= values[5]
+    self.vol= values[6]
+    self.openint= values[7]
+  end
+  
+  def Quote.import!(line)
+    q = Quote.import(line)
+    q.save
+  end
+  
+  def Quote.import(line)
+    quote = Quote.new
+    quote.import(line)
+    quote
+  end
+  
 end

@@ -13,7 +13,6 @@ class QuotesController < ApplicationController
         render :new
       end
     #end
-
   end
   def new
     @quote = Quote.new

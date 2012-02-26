@@ -29,6 +29,7 @@ describe Quote do
     quote = Quote.create(:ticker=>"FW20", :dyyyymmdd=>20120213, :open=>2372, :high=>2376, :low=>2347, :close=>2346, :vol=>37728, :openint=>37728)
     quote.should_not be_valid
   end
+  
   it "should tell whether the quote forms a dark candle" do
     quote = Quote.create(:ticker=>"FW20", :dyyyymmdd=>20120211, :open=>2372, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
     quote.should be_dark
@@ -38,6 +39,7 @@ describe Quote do
     quote = Quote.create(:ticker=>"FW20", :dyyyymmdd=>20120211, :open=>2345, :high=>2376, :low=>2344, :close=>2370, :vol=>37728, :openint=>37728)
     quote.should be_white
   end
+  
   it "should not be white when it's dark" do
     quote = Quote.create!(:ticker=>"FW20", :dyyyymmdd=>20120211, :open=>2372, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
     quote.should_not be_white
@@ -60,6 +62,36 @@ describe Quote do
     quote = Quote.create!(:ticker=>"FW20", :dyyyymmdd=>20120213, :open=>2300, :high=>2376, :low=>2299, :close=>2360, :vol=>37728, :openint=>37728)
     quote.lower_shadow.should == 1
     quote.higher_shadow.should == 16
+  end
+  
+  it "can import a coma separated line feed" do
+    quote = Quote.new
+    quote.import("FW20,20000103,2261,2274,2234,2244,4074,4955")
+    
+    quote.ticker.should == "FW20"
+    quote.dyyyymmdd.should == 20000103
+    quote.open.should == 2261
+    quote.high.should == 2274
+    quote.low.should == 2234
+    quote.close == 2244
+    quote.vol == 4074
+    quote.openint == 4955
+  end
+  
+  it "can skip schema line" do
+    quote = Quote.new
+    quote.import("<TICKER>,<DTYYYYMMDD>,<OPEN>,<HIGH>,<LOW>,<CLOSE>,<VOL>,<OPENINT>")
+    quote.ticker.should be_nil
+  end
+  
+  it "can create a Quote instance from a line feed" do
+    quote = Quote.import("FW20,20000103,2261,2274,2234,2244,4074,4955")
+    quote.ticker.should == "FW20"
+  end
+  
+  it "can create a Quote instance from a line feed and save" do
+    Quote.import!("FW20,20000103,2261,2274,2234,2244,4074,4955")
+    Quote.all.count == 2
   end
 
 end
