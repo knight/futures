@@ -1,4 +1,4 @@
-class FuturesValidator < ActiveModel::Validator
+class QuotesValidator < ActiveModel::Validator
   def validate(record)
     if not record.high.nil? and ([record.open, record.low, record.close].take_while { |p| not p.nil? }.max > record.high)
       record.errors[:high] << "The high price is not the actual highest price"
@@ -10,10 +10,10 @@ class FuturesValidator < ActiveModel::Validator
 end
 
 
-class Future < ActiveRecord::Base
+class Quote < ActiveRecord::Base
   validates_presence_of :ticker, :dyyyymmdd, :open, :high, :low, :close
   validates_uniqueness_of :dyyyymmdd
-  validates_with FuturesValidator
+  validates_with QuotesValidator
   
   def dark?
     close - open < 0

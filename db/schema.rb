@@ -10,9 +10,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120225114508) do
+ActiveRecord::Schema.define(:version => 20120226161905) do
 
-  create_table "futures", :force => true do |t|
+  create_table "quotes", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "ticker"

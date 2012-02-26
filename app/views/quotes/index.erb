@@ -1,5 +1,5 @@
-<h1>Futures</h1>
-<a href="<%=url_for :new_future %>">new</a>
+<h1>Quotes</h1>
+<a href="<%=url_for :new_quote %>">new</a>
 <table>
 	<tr>
 		<th>no.</th>
@@ -7,7 +7,7 @@
 		<th>date</th>
 		<th>actions</th>
 	</tr>
-	<% @futures.each do |f|%>
+	<% @quotes.each do |f|%>
 	<tr>
 		<td></td>
 		<td><%=f.ticker%></td>
