@@ -2,9 +2,14 @@ require 'spec_helper'
 
 describe "Futures views" do
   describe "new action" do
+    #render_views
     it "should render form when visiting new action" do
       visit '/futures/new'
       page.should have_selector 'form'
+    end
+    it "should render form with sent data when create action is unsuccessful" do
+      post '/futures', {:future=>{:ticker=>"FW20"}}
+      response.body.should have_selector('form input', {:name=>"ticker",:value=>"FW20"})
     end
   end
   
@@ -19,3 +24,4 @@ describe "Futures views" do
     end
   end
 end
+

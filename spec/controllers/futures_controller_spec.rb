@@ -1,19 +1,20 @@
 require 'spec_helper'
 
 describe FuturesController do
+  render_views
   it "should resolve index action" do
     get :index
-    response.code.should eq("200")
+    response.should be_successful
   end
   
-  it "should assign Futures" do
+  it "should assign Futures quotes for index view" do
     get :index
     assigns(:futures).should eq(Future.all)
   end
   
-  it "should have new action" do
+  it "should resolve new action" do
     get :new
-    response.code.should eq "200"
+    response.should be_successful
   end
   
   it "should assign a blueprint in the new action" do
@@ -21,13 +22,14 @@ describe FuturesController do
     assigns(:future).should be_an(Future)
   end
   
-  it "should redirect back to new action if the data are invalid" do
+  it "should render back new action if create data are invalid" do
     post :create, {}
-    response.should redirect_to(:new_future)
+    response.should render_template(:new)
+    response.body.should have_selector('form')
     Future.all.count.should == 0 
   end
   
-  it "should redirect back to index action if the creation is successful" do
+  it "should redirect to index action if the creation is successful" do
     post :create, { :future=>{
       :ticker=>"FW20",
       :dyyyymmdd=>"20120224",
