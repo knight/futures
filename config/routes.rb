@@ -1,5 +1,10 @@
 Futures::Application.routes.draw do
-  resources :quotes
+  resources :quotes do
+    collection do
+      get 'upload'
+      post 'import'
+    end
+  end
   root :to => 'quotes#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.

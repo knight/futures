@@ -91,7 +91,16 @@ describe Quote do
   
   it "can create a Quote instance from a line feed and save" do
     Quote.import!("FW20,20000103,2261,2274,2234,2244,4074,4955")
-    Quote.all.count == 2
+    Quote.all.count.should == 2
+  end
+  
+  it "can import multiple rows" do
+    f = File.new("#{Rails.root}/spec/fixtures/FW20-few.mst")
+    Quote.delete(:all)
+    f.each_line do |line|
+      Quote.import! line.strip
+    end
+    Quote.all.count.should > 0
   end
 
 end

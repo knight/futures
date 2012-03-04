@@ -8,4 +8,12 @@ describe "routing" do
       :action => "index"
     )
   end
+  
+  it "routes /quotes/upload to QuotesController#upload" do
+    { :get => '/quotes/upload'}.should route_to :controller=>"quotes", :action=>"upload"
+  end
+  
+  it "routes /quotes/import to QuotesController#import" do
+    { :post=> '/quotes/import'}.should route_to :controller=>"quotes", :action=>"import"
+  end
 end

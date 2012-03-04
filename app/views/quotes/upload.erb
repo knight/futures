@@ -1,0 +1,5 @@
+<h1>Import quotes from CSV file</h1>
+<%= form_tag({:action=>:import},:multipart=>true) do%>
+	<%=file_field_tag :quotes %>
+	<%=submit_tag "import quotes"%>
+<% end%>
