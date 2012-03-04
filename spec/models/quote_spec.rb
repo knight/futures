@@ -10,7 +10,7 @@ describe Quote do
     #created in before
     Quote.all.count.should == 1
   end
-  it "should not save if mandatory attiributes are missing" do
+  it "should not save if mandatory attributes are missing" do
     quote = Quote.create(:ticker=>"FW20")
     quote.should_not be_valid
   end
@@ -78,7 +78,7 @@ describe Quote do
     quote.openint == 4955
   end
   
-  it "can skip schema line" do
+  it "can skip schema line when importing" do
     quote = Quote.new
     quote.import("<TICKER>,<DTYYYYMMDD>,<OPEN>,<HIGH>,<LOW>,<CLOSE>,<VOL>,<OPENINT>")
     quote.ticker.should be_nil
