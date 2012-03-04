@@ -44,6 +44,7 @@ class Quote < ActiveRecord::Base
       return
     end
     values = line.split(",")
+    
     self.ticker= values[0]
     self.dyyyymmdd= values[1]
     self.open= values[2]
@@ -56,12 +57,30 @@ class Quote < ActiveRecord::Base
   
   def Quote.import!(line)
     q = Quote.import(line)
-    q.save
+    unless q.nil?
+      q.save
+    end
   end
   
   def Quote.import(line)
-    quote = Quote.new
-    quote.import(line)
+    if line.scan(/\<\w+\>/).length > 0
+      return
+    end
+    values = line.split(",")
+    quote = Quote.find_by_dyyyymmdd(values[1])
+    unless (quote.nil?)
+      quote.ticker= values[0]
+      quote.dyyyymmdd= values[1]
+      quote.open= values[2]
+      quote.high= values[3]
+      quote.low= values[4]
+      quote.close= values[5]
+      quote.vol= values[6]
+      quote.openint= values[7]
+    else
+      quote = Quote.new
+      quote.import(line)
+    end
     quote
   end
   

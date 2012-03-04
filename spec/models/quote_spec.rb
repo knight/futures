@@ -102,5 +102,10 @@ describe Quote do
     end
     Quote.all.count.should > 0
   end
+  
+  it "can update a row if the same date is used" do
+    Quote.import! "FW20,20120210,2370,2376,2344,2346,37728,129068"
+    Quote.find_by_dyyyymmdd(20120210).open.should == 2370
+  end
 
 end
