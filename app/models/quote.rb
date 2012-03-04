@@ -11,8 +11,8 @@ end
 
 
 class Quote < ActiveRecord::Base
-  validates_presence_of :ticker, :dyyyymmdd, :open, :high, :low, :close
-  validates_uniqueness_of :dyyyymmdd
+  validates_presence_of :ticker, :dtyyyymmdd, :open, :high, :low, :close
+  validates_uniqueness_of :dtyyyymmdd
   validates_with QuotesValidator
   
   def dark?
@@ -59,7 +59,7 @@ class Quote < ActiveRecord::Base
       return
     end
     values = line.split(",")
-    quote = Quote.find_by_dyyyymmdd(values[1])
+    quote = Quote.find_by_dtyyyymmdd(values[1])
     unless (quote.nil?)
       Quote.set_from_array(quote, values)
     else
@@ -71,7 +71,7 @@ class Quote < ActiveRecord::Base
   
   def Quote.set_from_array(quote, values)
       quote.ticker= values[0]
-      quote.dyyyymmdd= values[1]
+      quote.dtyyyymmdd= values[1]
       quote.open= values[2]
       quote.high= values[3]
       quote.low= values[4]

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Quote do
   before do
     #"FW20",20120210,2372,2376,2344,2346,37728,129068
-    @quote = Quote.create!(:ticker=>"FW20", :dyyyymmdd=>20120210, :open=>2372, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
+    @quote = Quote.create!(:ticker=>"FW20", :dtyyyymmdd=>20120210, :open=>2372, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
   end
 
   it "we should have one record when we create and save an entry" do
@@ -15,38 +15,38 @@ describe Quote do
     quote.should_not be_valid
   end
   
-  it "should have unique dyyyymmdd attribute" do
-     quote = Quote.create(:ticker=>"FW20", :dyyyymmdd=>20120210, :open=>2372, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
+  it "should have unique dtyyyymmdd attribute" do
+     quote = Quote.create(:ticker=>"FW20", :dtyyyymmdd=>20120210, :open=>2372, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
      quote.should_not be_valid
   end
   
   it "should have the other registrated prices lower than the highest price" do
-    quote = Quote.create(:ticker=>"FW20", :dyyyymmdd=>20120213, :open=>2377, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
+    quote = Quote.create(:ticker=>"FW20", :dtyyyymmdd=>20120213, :open=>2377, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
     quote.should_not be_valid
   end
   
   it "should have the other registrated prices higher than the highest price" do
-    quote = Quote.create(:ticker=>"FW20", :dyyyymmdd=>20120213, :open=>2372, :high=>2376, :low=>2347, :close=>2346, :vol=>37728, :openint=>37728)
+    quote = Quote.create(:ticker=>"FW20", :dtyyyymmdd=>20120213, :open=>2372, :high=>2376, :low=>2347, :close=>2346, :vol=>37728, :openint=>37728)
     quote.should_not be_valid
   end
   
   it "should tell whether the quote forms a dark candle" do
-    quote = Quote.create(:ticker=>"FW20", :dyyyymmdd=>20120211, :open=>2372, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
+    quote = Quote.create(:ticker=>"FW20", :dtyyyymmdd=>20120211, :open=>2372, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
     quote.should be_dark
   end
   
   it "should tell whether the quote forms a white candle" do
-    quote = Quote.create(:ticker=>"FW20", :dyyyymmdd=>20120211, :open=>2345, :high=>2376, :low=>2344, :close=>2370, :vol=>37728, :openint=>37728)
+    quote = Quote.create(:ticker=>"FW20", :dtyyyymmdd=>20120211, :open=>2345, :high=>2376, :low=>2344, :close=>2370, :vol=>37728, :openint=>37728)
     quote.should be_white
   end
   
   it "should not be white when it's dark" do
-    quote = Quote.create!(:ticker=>"FW20", :dyyyymmdd=>20120211, :open=>2372, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
+    quote = Quote.create!(:ticker=>"FW20", :dtyyyymmdd=>20120211, :open=>2372, :high=>2376, :low=>2344, :close=>2346, :vol=>37728, :openint=>37728)
     quote.should_not be_white
   end
   
   it "should not be dark when it's white" do
-    quote = Quote.create!(:ticker=>"FW20", :dyyyymmdd=>20120211, :open=>2344, :high=>2376, :low=>2344, :close=>2372, :vol=>37728, :openint=>37728)
+    quote = Quote.create!(:ticker=>"FW20", :dtyyyymmdd=>20120211, :open=>2344, :high=>2376, :low=>2344, :close=>2372, :vol=>37728, :openint=>37728)
     quote.should_not be_dark
   end
   
@@ -59,7 +59,7 @@ describe Quote do
   end
   
   it "should be able to compute shadows for white candles too" do
-    quote = Quote.create!(:ticker=>"FW20", :dyyyymmdd=>20120213, :open=>2300, :high=>2376, :low=>2299, :close=>2360, :vol=>37728, :openint=>37728)
+    quote = Quote.create!(:ticker=>"FW20", :dtyyyymmdd=>20120213, :open=>2300, :high=>2376, :low=>2299, :close=>2360, :vol=>37728, :openint=>37728)
     quote.lower_shadow.should == 1
     quote.higher_shadow.should == 16
   end
@@ -69,7 +69,7 @@ describe Quote do
     quote.import("FW20,20000103,2261,2274,2234,2244,4074,4955")
     
     quote.ticker.should == "FW20"
-    quote.dyyyymmdd.should == 20000103
+    quote.dtyyyymmdd.should == 20000103
     quote.open.should == 2261
     quote.high.should == 2274
     quote.low.should == 2234
@@ -105,7 +105,7 @@ describe Quote do
   
   it "can update a row if the same date is used" do
     Quote.import! "FW20,20120210,2370,2376,2344,2346,37728,129068"
-    Quote.find_by_dyyyymmdd(20120210).open.should == 2370
+    Quote.find_by_dtyyyymmdd(20120210).open.should == 2370
   end
 
 end

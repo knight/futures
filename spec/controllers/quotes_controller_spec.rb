@@ -6,7 +6,7 @@ describe QuotesController do
   def examplary_valid_quote_data
     { :quote=>{
         :ticker=>"FW20",
-        :dyyyymmdd=>"20120224",
+        :dtyyyymmdd=>"20120224",
         :open=>"2325",
         :high=>"2335",
         :low=>"2311",
