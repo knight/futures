@@ -47,6 +47,10 @@ class Quote < ActiveRecord::Base
     Quote.set_from_array(self, values)
   end
   
+  def height
+    (open - close).abs
+  end
+  
   def Quote.import!(line)
     q = Quote.import(line)
     unless q.nil?

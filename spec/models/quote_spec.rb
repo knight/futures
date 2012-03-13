@@ -108,4 +108,12 @@ describe Quote do
     Quote.find_by_dtyyyymmdd(20120210).open.should == 2370
   end
 
+  it "should know its height" do
+    @quote.height.should == 26
+  end
+  
+  it "should have positive height when the price rose" do
+    quote = Quote.import "FW20,20120313,2300,2336,2300,2333,37728,129068"
+    quote.height.should == 33
+  end
 end
