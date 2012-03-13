@@ -3,6 +3,8 @@ Futures::Application.routes.draw do
     collection do
       get 'upload'
       post 'import'
+      match 'index/:from' => 'quotes#index'
+      match 'index/:from/:to' => 'quotes#index'
     end
   end
   root :to => 'quotes#index'
