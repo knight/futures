@@ -74,14 +74,9 @@ class Quote < ActiveRecord::Base
   end
   
   def Quote.set_from_array(quote, values)
-      quote.ticker= values[0]
-      quote.dtyyyymmdd= values[1]
-      quote.open= values[2]
-      quote.high= values[3]
-      quote.low= values[4]
-      quote.close= values[5]
-      quote.vol= values[6]
-      quote.openint= values[7]
+      [:ticker, :dtyyyymmdd, :open, :high, :low, :close, :vol, :openint].zip(values).each do |pair|
+        quote[pair[0]] = pair[1]
+      end
       quote
   end
   
