@@ -1,6 +1,16 @@
 class QuotesController < ApplicationController
   def index
-    @quotes = Quote.all
+    if not params[:from].nil?
+      where_clause = "dtyyyymmdd >= :from"
+      if not params[:to].nil?
+        where_clause += " and dtyyyymmdd <= :to"
+      end
+    end
+    if params[:to].nil? and params[:from].nil?
+      @quotes = Quote.all
+    else
+      @quotes = Quote.where(where_clause, params)
+    end
   end
   
   def create

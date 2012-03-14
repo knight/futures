@@ -20,6 +20,14 @@ describe QuotesController do
       }
     }
   end
+  
+  def import_fixture
+    f = File.new("#{Rails.root}/spec/fixtures/FW20-few.mst")
+    Quote.delete(:all)
+    f.each_line do |line|
+      Quote.import! line.strip
+    end
+  end
   describe "index action" do
     it "should resolve" do
       get :index
@@ -29,6 +37,19 @@ describe QuotesController do
     it "should assign Futures quotes for the view to manipulate" do
       get :index
       assigns(:quotes).should eq(Quote.all)
+    end
+    
+    describe "filtering" do
+      it "should limit quotes by from date" do
+        import_fixture
+        get :index, :from=>"19991227"
+        assigns(:quotes).count.should eq(3)
+      end
+      it "should limit quotes by from and to date" do
+        import_fixture
+        get :index, :from=>"19991227", :to=>"19991227"
+        assigns(:quotes).count.should eq(1)
+      end
     end
   end 
   
