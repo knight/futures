@@ -48,4 +48,8 @@ class QuotesController < ApplicationController
       render :upload
     end
   end
+  def destroy
+    Quote.delete(params[:id])
+    redirect_to :quotes
+  end
 end

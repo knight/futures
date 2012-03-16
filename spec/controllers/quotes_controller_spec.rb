@@ -118,4 +118,16 @@ describe QuotesController do
       response.should render_template(:upload)
     end
   end
+  describe "destroy action" do
+    it "should call destroy on Quote model" do
+      mock_model(Quote)
+      Quote.should_receive(:delete).with("1")
+      delete :destroy, {:id=>1}
+      
+    end
+    it "should redirect to index" do
+      delete :destroy, {:id=>1}
+      response.should be_redirect
+    end
+  end
 end
