@@ -29,17 +29,22 @@ describe QuotesController do
     end
   end
   describe "index action" do
+    let(:quote) { 
+      stub_model(Quote)
+    }
     it "should resolve" do
       get :index
       response.should be_successful
     end
-    
     it "should assign Futures quotes for the view to manipulate" do
+      
+      Quote.should_receive(:all).at_least(:once).and_return([])
+      
       get :index
       assigns(:quotes).should eq(Quote.all)
     end
     
-    describe "filtering" do
+    context "filtering" do
       it "should limit quotes by from date" do
         import_fixture
         get :index, :from=>"19991227"
@@ -61,7 +66,7 @@ describe QuotesController do
     
     it "should assign a blueprint object for the view to manipulate" do
       get :new
-      assigns(:quote).should be_an(Quote)
+      assigns(:quote).should be_a(Quote)
     end
   end
   
@@ -119,13 +124,14 @@ describe QuotesController do
     end
   end
   describe "destroy action" do
+    let(:quote) { mock_model(Quote) }
     it "should call destroy on Quote model" do
-      mock_model(Quote)
-      Quote.should_receive(:delete).with("1")
-      delete :destroy, {:id=>1}
+      Quote.should_receive(:destroy).with("1")
+      delete :destroy, :id=>1
       
     end
     it "should redirect to index" do
+      Quote.should_receive(:destroy)
       delete :destroy, {:id=>1}
       response.should be_redirect
     end

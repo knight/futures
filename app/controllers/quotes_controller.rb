@@ -49,7 +49,7 @@ class QuotesController < ApplicationController
     end
   end
   def destroy
-    Quote.delete(params[:id])
+    Quote.destroy(params[:id])
     redirect_to :quotes
   end
 end
