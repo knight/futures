@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe QuotesController do
   include ActionDispatch::TestProcess
-  render_views
   def examplary_valid_quote_data
     { :quote=>{
         :ticker=>"FW20",
@@ -82,7 +81,6 @@ describe QuotesController do
     it "should render back new action if posted data is invalid" do
       post :create, examplary_invalid_quote_data
       response.should render_template(:new)
-      response.body.should have_selector('form')
     end
     it "should not create any new objects in the database if posted data is invalid" do
       post :create, examplary_invalid_quote_data
@@ -94,13 +92,6 @@ describe QuotesController do
     it "should resolve" do
       get :upload
       response.should be_successful
-    end
-    
-    it "should have an upload form with upload button and upload field" do
-      get :upload
-      response.body.should have_selector('form')
-      response.body.should have_selector('input[type=file]')
-      response.body.should have_selector('input[type=submit]')
     end
   end
   
