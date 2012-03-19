@@ -43,17 +43,36 @@ describe QuotesController do
       assigns(:quotes).should eq(Quote.all)
     end
     
-    context "filtering" do
-      it "should limit quotes by from date" do
-        import_fixture
+    context "in filtering context" do
+      let(:quote) { mock_model(Quote) }
+      before(:each) { import_fixture }
+      
+      it "can limit quotes objects by :from date" do
         get :index, :from=>"19991227"
         assigns(:quotes).count.should eq(3)
       end
-      it "should limit quotes by from and to date" do
-        import_fixture
+      
+      it "can limit quotes by :from and :to dates" do
         get :index, :from=>"19991227", :to=>"19991227"
         assigns(:quotes).count.should eq(1)
       end
+      
+      it "should send query with :from and :to filtering attributes" do
+        Quote.should_receive(:where).with(
+          "dtyyyymmdd >= :from and dtyyyymmdd <= :to",
+          hash_including(:from=>"19991227", :to=>"19991227")
+        )
+        get :index, :from=>"19991227", :to=>"19991227"
+      end
+      
+      it "should send query with a :from filtering attribute" do
+        Quote.should_receive(:where).with(
+          "dtyyyymmdd >= :from",
+          hash_including(:from=>"19991227")
+        )
+        get :index, :from=>"19991227"
+      end
+      
     end
   end 
   
