@@ -37,7 +37,7 @@ describe QuotesController do
     end
     it "should assign Futures quotes for the view to manipulate" do
       
-      Quote.should_receive(:all).at_least(:once).and_return([])
+      Quote.stub(:all).and_return([])
       
       get :index
       assigns(:quotes).should eq(Quote.all)
@@ -77,17 +77,44 @@ describe QuotesController do
   end 
   
   describe "new action" do
+    let(:quote) { mock_model(Quote).as_new_record }
     it "should resolve" do
       get :new
       response.should be_successful
     end
     
     it "should assign a blueprint object for the view to manipulate" do
+      Quote.should_receive(:new).and_return(quote)
       get :new
       assigns(:quote).should be_a(Quote)
+      assigns(:quote).should be_new_record
     end
   end
   
+  describe "show action" do
+    it "should resolve" do
+      get :show, :id=>1
+      response.should be_successful
+    end
+  end
+  describe "edit action" do
+    let(:quote) { mock_model(Quote, {:id=>1}) }
+    before (:each) do
+      Quote.should_receive(:find).and_return(quote)
+    end
+    
+    it "should resolve" do
+      get :edit, :id=>1
+      response.should be_successful
+    end
+    
+    it "should make a quote object available for the view" do
+      
+      get :edit, :id=>1
+      assigns[:quote].should be_a(Quote)
+      assigns[:quote].id.should eq(1)
+    end
+  end
   describe "create action" do
     it "should create a new entry in the model's table" do
       post :create, examplary_valid_quote_data

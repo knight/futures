@@ -24,6 +24,14 @@ class QuotesController < ApplicationController
       end
     #end
   end
+  
+  def show
+    
+  end
+  def edit
+    @quote = Quote.find(params[:id])
+    render :new
+  end
   def new
     @quote = Quote.new
   end
